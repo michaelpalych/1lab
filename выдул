@@ -1,0 +1,28 @@
+def optimized_method(P, B, U, Pl):
+    # Множества одежды
+    outfits = python_method(P, B, U, Pl)
+    
+    # Цены на одежду
+    prices = {
+        'Пиджак1': 30,
+        'Пиджак2': 40,
+        'Блузка1': 20,
+        'Блузка2': 25,
+        'Юбка1': 15,
+        'Юбка2': 20,
+        'Платье1': 50,
+        'Платье2': 45,
+        'Платье3': 60
+    }
+    
+    # Фильтрация по стоимости <= 100
+    valid_outfits = [
+        (o, sum(prices[item] for item in o)) 
+        for o in outfits if sum(prices[item] for item in o) <= 100
+    ]
+    
+    # Сортируем по стоимости
+    valid_outfits.sort(key=lambda x: x[1])
+    
+    # Возвращаем список нарядов
+    return [o[0] for o in valid_outfits]
