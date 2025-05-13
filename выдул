@@ -1,7 +1,21 @@
 def optimized_method(P, B, U, Pl):
     # Множества одежды
     outfits = python_method(P, B, U, Pl)
-    
+    optimal_outfits = optimized_method(P, B, U, Pl)
+
+print(f"\n5.2 Оптимизированные наряды (стоимость не более 100): {len(optimal_outfits)} нарядов")
+
+# Выводим список всех нарядов, которые соответствуют условиям
+for i, (outfit, cost) in enumerate(optimal_outfits, 1):
+    print(f"{i}) {' + '.join(outfit)} = {cost} рублей")
+
+# Если список не пустой — выводим самый оптимальный
+if optimal_outfits:
+    best_outfit, best_cost = optimal_outfits[0]
+    print("\nСамый дешевый наряд:")
+    print(f"{' + '.join(best_outfit)} = {best_cost} рублей")
+else:
+    print("Нет нарядов дешевле 100 рублей.")
     # Цены на одежду
     prices = {
         'Пиджак1': 30,
