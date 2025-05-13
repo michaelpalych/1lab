@@ -1,0 +1,47 @@
+import timeit
+import matplotlib.pyplot as plt
+import pandas as pd
+from math import factorial
+import openpyxl
+import os
+
+def recursive_f(n):
+    if n in (1, 2):
+        return -1
+    return (-1) ** n * (recursive_f(n - 2) / (factorial(2 * n)) - (n - 1)) if n % 2 == 0 else factorial(n - 1)
+
+def iterative_f(n):
+    if n in (1, 2):
+        return -1
+    f_prev = -1
+    sign = -1
+    for i in range(3, n + 1):
+        sign = 1 if i % 2 == 0 else -1
+        f_prev = sign * (f_prev / (factorial(2 * i)) - (i - 1))
+    return f_prev
+
+n_values = list(range(1, 20))
+rec_times = [timeit.timeit(lambda: recursive_f(n), number=1000) for n in n_values]
+iter_times = [timeit.timeit(lambda: iterative_f(n), number=1000) for n in n_values]
+
+df = pd.DataFrame({
+    'n': n_values,
+    'Recursive Time (ms)': rec_times,
+    'Iterative Time (ms)': iter_times,
+    'Difference (Rec - Iter)': [r - i for r, i in zip(rec_times, iter_times)]
+})
+
+desktop_path = os.path.join(os.path.expanduser("~"), "Desktop", "comparison_results.xlsx")
+df.to_excel(desktop_path, index=False, sheet_name='Comparison Results')
+
+plt.figure(figsize=(10, 5))
+plt.plot(n_values, rec_times, label='Recursive Time', color='orange')
+plt.plot(n_values, iter_times, label='Iterative Time', color='green')
+plt.xlabel('n Value')
+plt.ylabel('Time (ms)')
+plt.title('Сравнение времени выполнения: Рекурсия vs Итерация')
+plt.grid(True)
+plt.legend()
+plt.show()
+
+print(f"Файл сохранен на рабочем столе: comparison_results.xlsx")
