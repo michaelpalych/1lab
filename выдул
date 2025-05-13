@@ -39,4 +39,41 @@ else:
     valid_outfits.sort(key=lambda x: x[1])
     
     # Возвращаем список нарядов
-    return [o[0] for o in valid_outfits]
+    return [o[0] 
+
+
+def optimized_method(P, B, U, Pl):
+    # Создание всех комбинаций (продукт всех множеств)
+    from itertools import product
+    outfits = list(product(P, B, U, Pl))
+    
+    # Цены на одежду
+    prices = {
+        'Пиджак1': 30,
+        'Пиджак2': 40,
+        'Блузка1': 20,
+        'Блузка2': 25,
+        'Юбка1': 15,
+        'Юбка2': 20,
+        'Платье1': 50,
+        'Платье2': 45,
+        'Платье3': 60
+    }
+    
+    # Фильтрация по стоимости <= 100
+    valid_outfits = []
+    for o in outfits:
+        try:
+            total_cost = sum(prices[item] for item in o)
+            if total_cost <= 100:
+                valid_outfits.append((o, total_cost))
+        except KeyError as e:
+            print(f"Ошибка в названии элемента: {e}")
+    
+    # Сортировка по стоимости
+    valid_outfits.sort(key=lambda x: x[1])
+    
+    return valid_outfits
+
+
+for o in valid_outfits]
